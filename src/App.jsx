@@ -6,11 +6,13 @@ import { Home, Profile, CreateCampaign, CampaignDetails } from './pages';
 
 const App = () => {
   return (
-    <div style={{ position: 'relative', display: 'flex', padding: '1rem', backgroundColor: '#13131a', minHeight: '100vh', color: 'white' }}>
-      <div style={{ marginRight: '2.5rem', display: 'none', '@media (min-width: 640px)': { display: 'flex' } }}>
+    <div style={{ display: 'flex', padding: '1rem', backgroundColor: '#13131a', minHeight: '100vh', color: 'white' }}>
+      {/* Sidebar Container */}
+      <div style={{ marginRight: '2.5rem' }}>
         <Sidebar />
       </div>
 
+      {/* Konten Utama */}
       <div style={{ flex: 1, maxWidth: '1280px', margin: '0 auto' }}>
         <Navbar />
 
