@@ -5,30 +5,34 @@
 :root {
   --font-main: 'Epilogue', sans-serif;
   --color-bg: #13131a;
-  --color-bg-surface: #1c1c24;
-  --color-bg-element: #2c2f32;
   --color-text: #e1e1e6;
   --color-text-light: #808191;
   --color-accent-primary: #1dc071;
   --color-accent-secondary: #8c6dfd;
-  --color-border: #3a3a43;
-  --shadow-card: 0px 4px 20px rgba(0, 0, 0, 0.1);
+  --color-border-glass: rgba(255, 255, 255, 0.1);
+  --bg-glass: rgba(28, 28, 36, 0.7);
   --shadow-hover: 0px 8px 30px rgba(0, 0, 0, 0.2);
 }
 
 /* Animasi */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* Reset Dasar */
+@keyframes icon-pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.25) rotate(5deg); }
+  100% { transform: scale(1.1); }
+}
+
+@keyframes pulse-bg {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+  50% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.5; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+}
+
+/* Reset Dasar & Latar Belakang */
 * {
   margin: 0;
   padding: 0;
@@ -39,21 +43,38 @@ body {
   font-family: var(--font-main);
   background-color: var(--color-bg);
   color: var(--color-text);
+  overflow-x: hidden;
 }
 
-/* Layout Aplikasi Utama */
 .app-container {
   display: flex;
   min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+/* Latar Belakang Animasi */
+.app-container::before {
+  content: '';
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 1000px;
+  height: 1000px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(29, 192, 113, 0.15), transparent 60%);
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  animation: pulse-bg 12s infinite ease-in-out;
 }
 
 .sidebar-container {
-  display: none; /* Sembunyi di mobile */
+  display: none;
 }
 @media (min-width: 768px) {
   .sidebar-container {
     display: flex;
-    margin-right: 2.5rem;
+    padding: 1.5rem 0 1.5rem 1.5rem;
   }
 }
 
@@ -64,33 +85,39 @@ body {
   padding: 1.5rem;
 }
 
+/* Efek Glassmorphism untuk Komponen Utama */
+.sidebar, .navbar, .content-card, .page-container, .fund-box {
+  background: var(--bg-glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--color-border-glass);
+}
+
 /* Sidebar */
 .sidebar {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
   position: sticky;
-  top: 1.25rem;
-  height: 93vh;
+  top: 1.5rem;
+  height: calc(100vh - 3rem);
+  border-radius: 20px;
+  padding: 1rem 0;
 }
 
 .sidebar-logo {
   width: 52px;
   height: 52px;
   border-radius: 10px;
-  background-color: var(--color-bg-surface);
+  background-color: var(--color-bg);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: bold;
-  font-size: 20px;
-  color: var(--color-accent-primary);
   cursor: pointer;
   transition: transform 0.2s ease;
 }
 .sidebar-logo:hover {
-    transform: scale(1.1);
+    transform: scale(1.1) rotate(-5deg);
 }
 
 .sidebar-nav {
@@ -99,12 +126,8 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: var(--color-bg-surface);
-  border-radius: 20px;
   width: 76px;
-  padding: 1rem 0;
-  margin-top: 1rem;
-  gap: 1.25rem;
+  gap: 1.5rem;
 }
 
 .sidebar-icon {
@@ -118,28 +141,23 @@ body {
   transition: all 0.2s ease-in-out;
 }
 
-.sidebar-icon p {
-  color: var(--color-text-light);
-  font-weight: bold;
-  text-transform: capitalize;
+.sidebar-icon-img {
+    width: 50%;
+    height: 50%;
+    transition: filter 0.2s ease;
+}
+
+.sidebar-icon:hover {
+    animation: icon-pop 0.3s ease-in-out forwards;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .sidebar-icon.active {
   background-color: var(--color-accent-primary);
 }
 
-.sidebar-icon.active p {
-  color: white;
-}
-
-.sidebar-icon:not(.disabled):hover {
-  background-color: var(--color-bg-element);
-  transform: scale(1.1);
-}
-
-.sidebar-icon.disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
+.sidebar-icon.active .sidebar-icon-img {
+  filter: grayscale(0) !important;
 }
 
 /* Navbar */
@@ -150,17 +168,18 @@ body {
   align-items: center;
   gap: 1.5rem;
   margin-bottom: 2.5rem;
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
 }
 
 .search-bar {
   flex: 1;
   display: flex;
-  max-width: 458px;
-  background-color: var(--color-bg-surface);
+  min-width: 250px;
+  background-color: var(--color-bg);
   border-radius: 100px;
   padding: 4px;
   height: 52px;
-  border: 1px solid var(--color-border);
 }
 
 .search-input {
@@ -202,7 +221,7 @@ body {
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background-color: var(--color-bg-element);
+  background-color: var(--color-bg);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -246,14 +265,14 @@ body {
   margin-bottom: 10px;
 }
 .form-field-input {
-  background-color: transparent;
+  background-color: var(--color-bg);
   font-size: 14px;
   color: var(--color-text);
   padding: 15px;
   width: 100%;
   border-radius: 10px;
   outline: none;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-border-glass);
   transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 .form-field-input:focus {
@@ -262,6 +281,12 @@ body {
 }
 
 /* Display Campaigns & Fund Card */
+.content-card {
+  padding: 1.5rem;
+  border-radius: 10px;
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
 .display-campaigns-title {
   font-weight: 600;
   font-size: 18px;
@@ -274,12 +299,12 @@ body {
 }
 .fund-card {
   width: 100%;
-  background-color: var(--color-bg-surface);
+  background: var(--bg-glass);
+  border: 1px solid var(--color-border-glass);
   border-radius: 15px;
   cursor: pointer;
   overflow: hidden;
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  box-shadow: var(--shadow-card);
   animation: fadeIn 0.5s ease-out forwards;
 }
 .fund-card:hover {
@@ -353,7 +378,6 @@ body {
 
 /* Create & Details Page */
 .page-container {
-  background-color: var(--color-bg-surface);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -386,14 +410,13 @@ body {
   max-height: 410px;
   object-fit: cover;
   border-radius: 15px;
-  margin: 1.5rem 0;
+  margin-bottom: 1.5rem;
 }
 .progress-bar-container {
   position: relative;
   width: 100%;
   height: 5px;
-  background-color: var(--color-border);
-  margin-top: 2px;
+  background-color: var(--color-border-glass);
   border-radius: 10px;
 }
 .progress-bar-fill {
@@ -409,7 +432,7 @@ body {
   gap: 2rem;
   margin-top: 2rem;
 }
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .details-grid {
     grid-template-columns: 1fr;
   }
@@ -425,7 +448,7 @@ body {
   align-items: center;
   margin-bottom: 1rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border-glass);
 }
 .donator-row:last-child {
     border-bottom: none;
@@ -442,10 +465,9 @@ body {
 }
 .fund-box {
   padding: 1.5rem;
-  background-color: var(--color-bg-surface);
   border-radius: 10px;
   position: sticky;
-  top: 1.25rem;
+  top: 1.5rem;
 }
 .fund-box-title {
   font-weight: 600;
@@ -495,10 +517,28 @@ body {
   text-align: center;
 }
 
-.content-card {
-  background-color: var(--color-bg-surface);
-  padding: 1.5rem;
+.profile-dropdown {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  width: 150px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--color-border-glass);
   border-radius: 10px;
-  border: 1px solid var(--color-border);
-  animation: fadeIn 0.5s ease-out forwards;
+  padding: 0.5rem;
+  z-index: 10;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.profile-dropdown-item {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.profile-dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }

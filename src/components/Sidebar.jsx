@@ -1,21 +1,18 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { navlinks } from '../constants';
+import logo from '../assets/Crowdfunding.png'; 
 
 const Icon = ({ name, imgUrl, isActive, disabled, handleClick }) => (
   <div
     className={`sidebar-icon ${isActive === name ? 'active' : ''} ${disabled ? 'disabled' : ''}`}
     onClick={handleClick}
   >
-    {/* Tampilkan gambar ikon, bukan teks */}
     <img 
       src={imgUrl} 
       alt={name} 
-      style={{ 
-        width: '50%', 
-        height: '50%', 
-        filter: isActive === name ? 'grayscale(0)' : 'grayscale(1) invert(0.2)' 
-      }} 
+      className="sidebar-icon-img"
+      style={{ filter: isActive === name ? 'grayscale(0)' : 'grayscale(1) brightness(1.5)' }} 
     />
   </div>
 );
@@ -26,8 +23,9 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar">
+      {/* Ganti teks 'CF' dengan gambar logo */}
       <Link to="/" className="sidebar-logo">
-        CF
+        <img src={logo} alt="logo" style={{ width: '80%', height: '80%', objectFit: 'contain' }} />
       </Link>
 
       <div className="sidebar-nav">
@@ -37,8 +35,10 @@ const Sidebar = () => {
             {...link}
             isActive={isActive}
             handleClick={() => {
-              setIsActive(link.name);
-              navigate(link.link);
+              if (!link.disabled) {
+                setIsActive(link.name);
+                navigate(link.link);
+              }
             }}
           />
         ))}

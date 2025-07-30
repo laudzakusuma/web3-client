@@ -26,6 +26,9 @@ importers:
       react-router-dom:
         specifier: ^7.7.1
         version: 7.7.1(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      three:
+        specifier: ^0.178.0
+        version: 0.178.0
     devDependencies:
       '@eslint/js':
         specifier: ^9.30.1
@@ -4084,6 +4087,9 @@ packages:
 
   three@0.146.0:
     resolution: {integrity: sha512-1lvNfLezN6OJ9NaFAhfX4sm5e9YCzHtaRgZ1+B4C+Hv6TibRMsuBAM5/wVKzxjpYIlMymvgsHEFrrigEfXnb2A==}
+
+  three@0.178.0:
+    resolution: {integrity: sha512-ybFIB0+x8mz0wnZgSGy2MO/WCO6xZhQSZnmfytSPyNpM0sBafGRVhdaj+erYh5U+RhQOAg/eXqw5uVDiM2BjhQ==}
 
   timed-out@4.0.1:
     resolution: {integrity: sha512-G7r3AhovYtr5YKOWQkta8RKAPb+J9IsO4uVmzjl8AZwfhs8UcUwTiD6gcJYSgOtzyjvQKrKYn41syHbUWMkafA==}
@@ -10446,6 +10452,8 @@ snapshots:
       real-require: 0.2.0
 
   three@0.146.0: {}
+
+  three@0.178.0: {}
 
   timed-out@4.0.1: {}
 

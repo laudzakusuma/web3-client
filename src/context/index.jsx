@@ -1,19 +1,21 @@
 import React, { useContext, createContext } from 'react';
-import { useAddress, useContract, useMetamask, useContractWrite } from '@thirdweb-dev/react';
+import { useAddress, useContract, useMetamask, useContractWrite, useDisconnect } from '@thirdweb-dev/react';
 import { ethers } from 'ethers';
+
 import CrowdfundingABI from '../abis/Crowdfunding.json';
 
 const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
   const { contract } = useContract(
-    '0xDB7366278a6475617Fa68f83cFbd376C4354be7F',
+    '0xDBF71Ac4a47F0086111c9E97C4d2585A34137Fab',
     CrowdfundingABI.abi
   );
   
   const { mutateAsync: createCampaign } = useContractWrite(contract, 'createCampaign');
   const address = useAddress();
   const connect = useMetamask();
+  const disconnect = useDisconnect();
 
   const publishCampaign = async (form) => {
     try {
@@ -27,7 +29,6 @@ export const StateContextProvider = ({ children }) => {
 					form.image,
 				],
 			});
-
       console.log("Panggilan kontrak berhasil", data);
     } catch (error) {
       console.log("Panggilan kontrak gagal", error);
@@ -46,23 +47,19 @@ export const StateContextProvider = ({ children }) => {
       image: campaign.image,
       pId: i
     }));
-
     return parsedCampaigns;
   }
 
   const getDonations = async (pId) => {
     const donations = await contract.call('getDonators', [pId]);
     const numberOfDonations = donations[0].length;
-
     const parsedDonations = [];
-
     for(let i = 0; i < numberOfDonations; i++) {
       parsedDonations.push({
         donator: donations[0][i],
         donation: ethers.utils.formatEther(donations[1][i].toString())
       })
     }
-
     return parsedDonations;
   }
 
@@ -77,6 +74,7 @@ export const StateContextProvider = ({ children }) => {
         address,
         contract,
         connect,
+        disconnect,
         createCampaign: publishCampaign,
         getCampaigns,
         getDonations,
