@@ -1,12 +1,13 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+
 import { Sidebar, Navbar } from './components';
 import { Home, Profile, CreateCampaign, CampaignDetails } from './pages';
 
 const App = () => {
   return (
-    <div style={{ display: 'flex', backgroundColor: '#13131a', minHeight: '100vh', color: 'white', padding: '1rem' }}>
-      <div style={{ marginRight: '2.5rem' }}>
+    <div style={{ position: 'relative', display: 'flex', padding: '1rem', backgroundColor: '#13131a', minHeight: '100vh', color: 'white' }}>
+      <div style={{ marginRight: '2.5rem', display: 'none', '@media (min-width: 640px)': { display: 'flex' } }}>
         <Sidebar />
       </div>
 

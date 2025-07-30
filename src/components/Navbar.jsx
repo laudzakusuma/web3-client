@@ -1,46 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
 import { useStateContext } from '../context';
-import { CustomButton } from './CustomButton';
+import CustomButton from './CustomButton';
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const [isActive, setIsActive] = useState('dashboard');
   const { connect, address } = useStateContext();
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '35px' }}>
-      {/* Di sini bisa ditambahkan input search jika mau */}
-      <div style={{ flex: 1 }}>
-        {/* Search bar placeholder */}
+    <div style={{ display: 'flex', flexDirection: 'column-reverse', md: { flexDirection: 'row' }, gap: '1.5rem', marginBottom: '2.5rem' }}>
+      <div style={{ lg: { flex: 1 }, display: 'flex', flexDirection: 'row', maxWidth: '458px', backgroundColor: '#1c1c24', borderRadius: '9999px', height: '52px', padding: '4px' }}>
+        <input type="text" placeholder="Search for campaigns" style={{ flex: 1, fontFamily: 'Epilogue, sans-serif', fontWeight: 'normal', fontSize: '14px', placeholder: { color: '#4b5264' }, color: 'white', backgroundColor: 'transparent', outline: 'none', padding: '0 1rem' }} />
+        <div style={{ width: '72px', height: '100%', borderRadius: '20px', backgroundColor: '#4acd8d', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer' }}>
+          <p style={{ color: 'white', fontWeight: 'bold' }}>Go</p>
+        </div>
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
-        <CustomButton 
+      <div style={{ display: 'none', lg: { display: 'flex' }, flexDirection: 'row', justifyContent: 'flex-end', gap: '1rem' }}>
+        <CustomButton
           btnType="button"
           title={address ? 'Create a campaign' : 'Connect'}
           styles={{ backgroundColor: address ? '#1dc071' : '#8c6dfd' }}
           handleClick={() => {
-            if(address) {
-              navigate('create-campaign');
-            } else {
-              connect();
-            }
+            if (address) navigate('create-campaign')
+            else connect();
           }}
         />
-
-        {/* Link ke profil, bisa ditambahkan gambar profil di sini */}
-        {address && (
-          <Link to="/profile">
-             <div style={{ width: '52px', height: '52px', borderRadius: '50%', backgroundColor: '#2c2f32', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer' }}>
-                {/* Placeholder untuk ikon/gambar profil */}
-                <p style={{color: 'white', fontSize: '12px'}}>Me</p>
-             </div>
-          </Link>
-        )}
+        <Link to="/profile">
+          <div style={{ width: '52px', height: '52px', borderRadius: '9999px', backgroundColor: '#2c2f32', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer' }}>
+            <p style={{ color: 'white' }}>Me</p>
+          </div>
+        </Link>
       </div>
     </div>
-  );
+  )
 }
 
 export default Navbar;
