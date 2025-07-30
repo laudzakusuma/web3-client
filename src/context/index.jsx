@@ -1,11 +1,15 @@
 import React, { useContext, createContext } from 'react';
 import { useAddress, useContract, useMetamask, useContractWrite } from '@thirdweb-dev/react';
 import { ethers } from 'ethers';
+import CrowdfundingABI from '../abis/Crowdfunding.json';
 
 const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
-  const { contract } = useContract('0x01475C4B89d4e4576dB0e86d1845e9E0a11c0818');
+  const { contract } = useContract(
+    '0xDB7366278a6475617Fa68f83cFbd376C4354be7F',
+    CrowdfundingABI.abi
+  );
   
   const { mutateAsync: createCampaign } = useContractWrite(contract, 'createCampaign');
   const address = useAddress();
@@ -46,6 +50,27 @@ export const StateContextProvider = ({ children }) => {
     return parsedCampaigns;
   }
 
+  const getDonations = async (pId) => {
+    const donations = await contract.call('getDonators', [pId]);
+    const numberOfDonations = donations[0].length;
+
+    const parsedDonations = [];
+
+    for(let i = 0; i < numberOfDonations; i++) {
+      parsedDonations.push({
+        donator: donations[0][i],
+        donation: ethers.utils.formatEther(donations[1][i].toString())
+      })
+    }
+
+    return parsedDonations;
+  }
+
+  const donate = async (pId, amount) => {
+    const data = await contract.call('donateToCampaign', [pId], { value: ethers.utils.parseEther(amount)});
+    return data;
+  }
+
   return (
     <StateContext.Provider
       value={{ 
@@ -54,6 +79,8 @@ export const StateContextProvider = ({ children }) => {
         connect,
         createCampaign: publishCampaign,
         getCampaigns,
+        getDonations,
+        donate,
        }}
     >
       {children}

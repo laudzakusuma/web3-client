@@ -1,24 +1,10 @@
 import React from 'react';
 
 const FormField = ({ labelName, placeholder, inputType, isTextArea, value, handleChange }) => {
-  const commonInputStyles = {
-    backgroundColor: 'transparent',
-    fontFamily: 'Epilogue, sans-serif',
-    fontSize: '14px',
-    color: 'white',
-    padding: '15px 20px',
-    width: '100%',
-    borderRadius: '10px',
-    outline: 'none',
-    border: '1px solid #3a3a43',
-  };
-
   return (
-    <label style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+    <label className="form-field">
       {labelName && (
-        <span style={{ fontFamily: 'Epilogue, sans-serif', fontWeight: '500', fontSize: '14px', color: '#808191', marginBottom: '10px' }}>
-          {labelName}
-        </span>
+        <span className="form-field-label">{labelName}</span>
       )}
       {isTextArea ? (
         <textarea
@@ -27,7 +13,7 @@ const FormField = ({ labelName, placeholder, inputType, isTextArea, value, handl
           onChange={handleChange}
           rows={10}
           placeholder={placeholder}
-          style={commonInputStyles}
+          className="form-field-input"
         />
       ) : (
         <input
@@ -35,9 +21,9 @@ const FormField = ({ labelName, placeholder, inputType, isTextArea, value, handl
           value={value}
           onChange={handleChange}
           type={inputType}
-          step="0.1"
+          step="0.01"
           placeholder={placeholder}
-          style={commonInputStyles}
+          className="form-field-input"
         />
       )}
     </label>
