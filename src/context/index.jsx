@@ -8,7 +8,7 @@ const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
   const { contract } = useContract(
-    '0xDBF71Ac4a47F0086111c9E97C4d2585A34137Fab',
+    '0x726418123325555B275796513A3F9938219E0d91',
     CrowdfundingABI.abi
   );
   
