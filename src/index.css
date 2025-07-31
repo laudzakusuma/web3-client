@@ -521,7 +521,7 @@ body {
   position: absolute;
   top: 60px;
   right: 0;
-  width: 150px;
+  width: 200px;
   background: var(--bg-glass);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -530,6 +530,7 @@ body {
   padding: 0.5rem;
   z-index: 10;
   animation: fadeIn 0.2s ease-out;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
 .profile-dropdown-item {
@@ -537,8 +538,47 @@ body {
   cursor: pointer;
   border-radius: 8px;
   transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .profile-dropdown-item:hover {
   background-color: rgba(255, 255, 255, 0.1);
+}
+
+.profile-page-container {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.profile-header-card {
+  background: var(--bg-glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--color-border-glass);
+  border-radius: 10px;
+  padding: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.profile-info {
+  margin-top: 1.5rem;
+}
+
+.profile-info-label {
+  font-size: 14px;
+  color: var(--color-text-light);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.profile-info-value {
+  font-size: 16px;
+  font-family: monospace;
+  color: var(--color-text);
+  word-break: break-all;
+  background-color: rgba(0,0,0,0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
 }

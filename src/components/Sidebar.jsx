@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+
 import { navlinks } from '../constants';
 import logo from '../assets/Crowdfunding.png'; 
 
@@ -12,7 +13,7 @@ const Icon = ({ name, imgUrl, isActive, disabled, handleClick }) => (
       src={imgUrl} 
       alt={name} 
       className="sidebar-icon-img"
-      style={{ filter: isActive === name ? 'grayscale(0)' : 'grayscale(1) brightness(1.5)' }} 
+      style={{ opacity: isActive === name ? 1 : 0.6 }} 
     />
   </div>
 );
@@ -23,7 +24,6 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar">
-      {/* Ganti teks 'CF' dengan gambar logo */}
       <Link to="/" className="sidebar-logo">
         <img src={logo} alt="logo" style={{ width: '80%', height: '80%', objectFit: 'contain' }} />
       </Link>

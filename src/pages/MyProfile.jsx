@@ -22,8 +22,8 @@ const MyProfile = () => {
   }, [address, contract]);
 
   return (
-    <div>
-      {/* Kartu Header Profil */}
+    <div className="profile-page-container">
+      {/* Kartu Header Profil yang Baru */}
       <div className="profile-header-card">
         <h1 className="page-title">My Profile</h1>
         <div className="profile-info">
@@ -37,11 +37,13 @@ const MyProfile = () => {
       </div>
 
       {/* Daftar Kampanye Milik Pengguna */}
-      <DisplayCampaigns 
-        title="My Campaigns"
-        isLoading={isLoading}
-        campaigns={campaigns}
-      />
+      <div className="content-card" style={{ marginTop: '2rem' }}>
+        <DisplayCampaigns 
+          title="My Campaigns"
+          isLoading={isLoading}
+          campaigns={campaigns}
+        />
+      </div>
     </div>
   );
 };
