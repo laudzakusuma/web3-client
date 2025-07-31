@@ -18,22 +18,18 @@ const CreateCampaign = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validasi 1: Cek apakah semua kolom terisi
     if (!form.title || !form.description || !form.target || !form.deadline || !form.image) {
       return toast.error('Please fill all the required fields.');
     }
 
-    // Validasi 2: Cek apakah target adalah angka yang valid
     if (isNaN(form.target) || parseFloat(form.target) <= 0) {
       return toast.error('Please enter a valid goal amount greater than 0.');
     }
 
-    // Validasi 3: Cek apakah tanggal deadline berada di masa depan
     if (new Date(form.deadline).getTime() <= Date.now()) {
       return toast.error('The end date must be in the future.');
     }
 
-    // Jika semua validasi lolos, lanjutkan proses
     setIsLoading(true);
     await createCampaign({ ...form });
     setIsLoading(false);

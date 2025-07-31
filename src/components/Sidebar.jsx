@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { navlinks } from '../constants';
 import logo from '../assets/Crowdfunding.png'; 
 
@@ -20,7 +19,17 @@ const Icon = ({ name, imgUrl, isActive, disabled, handleClick }) => (
 
 const Sidebar = () => {
   const navigate = useNavigate();
+  const location = useLocation(); // Gunakan hook useLocation
   const [isActive, setIsActive] = useState('dashboard');
+
+  // Sinkronkan state 'isActive' dengan URL saat ini
+  useEffect(() => {
+    const currentPath = location.pathname;
+    const activeLink = navlinks.find(link => link.link === currentPath);
+    if (activeLink) {
+      setIsActive(activeLink.name);
+    }
+  }, [location.pathname]);
 
   return (
     <div className="sidebar">
