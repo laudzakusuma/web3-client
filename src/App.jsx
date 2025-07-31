@@ -1,8 +1,10 @@
 import React from 'react';
 import { Navigate, Route, Routes, Outlet } from 'react-router-dom';
 import { useStateContext } from './context';
+import { Toaster } from 'react-hot-toast';
 import { Sidebar, Navbar } from './components';
 import { Home, Profile, CreateCampaign, CampaignDetails, Landing, Login, Onboarding, Payment, Withdraw, MyProfile } from './pages';
+
 
 const ProtectedRoute = () => {
   const { address } = useStateContext();
@@ -14,15 +16,18 @@ const ProtectedRoute = () => {
 
 const AppLayout = () => (
   <div className="app-container">
+    {/* 2. Tambahkan komponen Toaster di sini */}
+    <Toaster position="top-center" reverseOrder={false} />
     <div className="sidebar-container">
       <Sidebar />
     </div>
     <div className="main-content">
       <Navbar />
-      <Outlet /> {/* Ini akan merender komponen halaman (Home, Profile, dll.) */}
+      <Outlet />
     </div>
   </div>
 );
+
 
 const App = () => {
   return (

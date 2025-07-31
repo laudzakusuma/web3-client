@@ -1,4 +1,4 @@
-import React, { useContext, createContext } from 'react';
+import React, { useState, useContext, createContext } from 'react';
 import { useAddress, useContract, useMetamask, useContractWrite, useDisconnect } from '@thirdweb-dev/react';
 import { ethers } from 'ethers';
 
@@ -8,10 +8,11 @@ const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
   const { contract } = useContract(
-    '0x726418123325555B275796513A3F9938219E0d91',
+    '0xd4afBfc0dBaec220e5Db814a4410f4F0EA0170b4',
     CrowdfundingABI.abi
   );
   
+  const [searchTerm, setSearchTerm] = useState('');
   const { mutateAsync: createCampaign } = useContractWrite(contract, 'createCampaign');
   const address = useAddress();
   const connect = useMetamask();
@@ -79,6 +80,8 @@ export const StateContextProvider = ({ children }) => {
         getCampaigns,
         getDonations,
         donate,
+        searchTerm,
+        setSearchTerm,
        }}
     >
       {children}

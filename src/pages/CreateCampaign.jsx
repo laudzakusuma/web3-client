@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ethers } from 'ethers';
 import { useStateContext } from '../context';
 import { CustomButton, FormField, Loader } from '../components';
+import toast from 'react-hot-toast';
 
 const CreateCampaign = () => {
   const navigate = useNavigate();
@@ -16,14 +17,28 @@ const CreateCampaign = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (form.title && form.description && form.target && form.deadline && form.image) {
-      setIsLoading(true);
-      await createCampaign({ ...form });
-      setIsLoading(false);
-      navigate('/');
-    } else {
-      alert('Please fill all fields');
+
+    // Validasi 1: Cek apakah semua kolom terisi
+    if (!form.title || !form.description || !form.target || !form.deadline || !form.image) {
+      return toast.error('Please fill all the required fields.');
     }
+
+    // Validasi 2: Cek apakah target adalah angka yang valid
+    if (isNaN(form.target) || parseFloat(form.target) <= 0) {
+      return toast.error('Please enter a valid goal amount greater than 0.');
+    }
+
+    // Validasi 3: Cek apakah tanggal deadline berada di masa depan
+    if (new Date(form.deadline).getTime() <= Date.now()) {
+      return toast.error('The end date must be in the future.');
+    }
+
+    // Jika semua validasi lolos, lanjutkan proses
+    setIsLoading(true);
+    await createCampaign({ ...form });
+    setIsLoading(false);
+    toast.success('Campaign created successfully!');
+    navigate('/');
   };
 
   return (

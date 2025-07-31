@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useStateContext } from '../context';
 import { CustomButton, Loader } from '../components';
 import { calculateBarPercentage, daysLeft } from '../utils';
+import toast from 'react-hot-toast';
 
 const CampaignDetails = () => {
   const { state: campaign } = useLocation();
@@ -25,12 +26,13 @@ const CampaignDetails = () => {
   }, [contract, address]);
 
   const handleDonate = async () => {
-    if (!amount || parseFloat(amount) <= 0) {
-      alert("Please enter a valid amount");
+    if (!amount || parseFloat(amount) <= 0) {r
+      toast.error("Please enter a valid donation amount.");
       return;
     }
     setIsLoading(true);
     await donate(campaign.pId, amount);
+    toast.success('Donation successful! Thank you for your support.');
     navigate('/');
     setIsLoading(false);
   }

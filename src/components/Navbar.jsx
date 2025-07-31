@@ -5,14 +5,32 @@ import CustomButton from './CustomButton';
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { connect, address, disconnect } = useStateContext();
+  const { connect, address, disconnect, setSearchTerm } = useStateContext();
   const [toggleDrawer, setToggleDrawer] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearch = () => {
+    setSearchTerm(searchQuery);
+  };
 
   return (
     <div className="navbar">
       <div className="search-bar">
-        <input type="text" placeholder="Search for campaigns" className="search-input" />
-        <div className="search-button">Go</div>
+        <input 
+          type="text" 
+          placeholder="Search for campaigns" 
+          className="search-input"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          onKeyPress={(e) => {
+            if (e.key === 'Enter') {
+              handleSearch();
+            }
+          }}
+        />
+        <div className="search-button" onClick={handleSearch}>
+          Go
+        </div>
       </div>
 
       <div className="navbar-actions">
