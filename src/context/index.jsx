@@ -14,6 +14,7 @@ export const StateContextProvider = ({ children }) => {
   
   const [searchTerm, setSearchTerm] = useState('');
   const { mutateAsync: createCampaign } = useContractWrite(contract, 'createCampaign');
+  const { mutateAsync: payoutToOwner } = useContractWrite(contract, 'payoutToOwner');
   const address = useAddress();
   const connect = useMetamask();
   const disconnect = useDisconnect();
@@ -82,6 +83,7 @@ export const StateContextProvider = ({ children }) => {
         donate,
         searchTerm,
         setSearchTerm,
+        payoutToOwner,
        }}
     >
       {children}

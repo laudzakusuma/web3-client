@@ -517,9 +517,10 @@ body {
   text-align: center;
 }
 
+/* Profile Dropdown */
 .profile-dropdown {
   position: absolute;
-  top: 60px;
+  top: 60px; /* Jarak dari ikon profil */
   right: 0;
   width: 200px;
   background: var(--bg-glass);
@@ -547,6 +548,7 @@ body {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
+/* My Profile Page */
 .profile-page-container {
   animation: fadeIn 0.5s ease-out forwards;
 }
@@ -575,9 +577,9 @@ body {
 
 .profile-info-value {
   font-size: 16px;
-  font-family: monospace;
+  font-family: monospace; /* Font yang bagus untuk alamat */
   color: var(--color-text);
-  word-break: break-all;
+  word-break: break-all; /* Agar alamat tidak overflow */
   background-color: rgba(0,0,0,0.2);
   padding: 0.5rem 1rem;
   border-radius: 8px;
