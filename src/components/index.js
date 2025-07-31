@@ -6,3 +6,4 @@ export { default as FundCard } from './FundCard';
 export { default as DisplayCampaigns } from './DisplayCampaigns';
 export { default as Loader } from './Loader';
 export { default as ThreeDModel } from './ThreeDModel';
+export { default as ProfileModal } from './ProfileModal';

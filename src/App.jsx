@@ -2,9 +2,8 @@ import React from 'react';
 import { Navigate, Route, Routes, Outlet } from 'react-router-dom';
 import { useStateContext } from './context';
 import { Toaster } from 'react-hot-toast';
-import { Sidebar, Navbar } from './components';
+import { Sidebar, Navbar, ProfileModal } from './components';
 import { Home, Profile, CreateCampaign, CampaignDetails, Landing, Login, Onboarding, Payment, Withdraw, MyProfile } from './pages';
-
 
 const ProtectedRoute = () => {
   const { address } = useStateContext();
@@ -14,19 +13,27 @@ const ProtectedRoute = () => {
   return <Outlet />;
 };
 
-const AppLayout = () => (
-  <div className="app-container">
-    {/* 2. Tambahkan komponen Toaster di sini */}
-    <Toaster position="top-center" reverseOrder={false} />
-    <div className="sidebar-container">
-      <Sidebar />
-    </div>
-    <div className="main-content">
-      <Navbar />
-      <Outlet />
-    </div>
-  </div>
-);
+ const AppLayout = () => {
+    const { isProfileModalOpen } = useStateContext();
+
+    return (
+        // Tambahkan kelas blur secara kondisional
+      <div className={`app-layout-container ${isProfileModalOpen ? 'content-blurred' : ''}`}>
+        <div className="app-container">
+          <div className="sidebar-container">
+            <Sidebar />
+          </div>
+          <div className="main-content">
+            <Navbar />
+            <Outlet />
+          </div>
+        </div>
+          {/* Render Modal di sini agar berada di atas segalanya */}
+        <ProfileModal />
+        <Toaster position="top-center" reverseOrder={false} />
+      </div>
+    );
+  };
 
 
 const App = () => {

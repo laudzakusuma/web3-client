@@ -15,6 +15,7 @@ export const StateContextProvider = ({ children }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const { mutateAsync: createCampaign } = useContractWrite(contract, 'createCampaign');
   const { mutateAsync: payoutToOwner } = useContractWrite(contract, 'payoutToOwner');
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const address = useAddress();
   const connect = useMetamask();
   const disconnect = useDisconnect();
@@ -84,6 +85,8 @@ export const StateContextProvider = ({ children }) => {
         searchTerm,
         setSearchTerm,
         payoutToOwner,
+        isProfileModalOpen,
+        setIsProfileModalOpen,
        }}
     >
       {children}
